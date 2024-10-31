@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword Constructor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <div class="crossword-info">
+                <input type="text" id="crosswordName" placeholder="Crossword name">
+                <button id="saveCrossword">Save Crossword</button>
+            </div>
+            
+            <div class="word-input">
+                <input type="text" id="wordInput" placeholder="Enter word">
+                <input type="text" id="hintInput" placeholder="Enter hint (optional)">
+                <div class="intersection-select">
+                    <label>
+                        <input type="checkbox" id="useIntersection">
+                        Intersect with specific word
+                    </label>
+                    <select id="intersectWord" disabled>
+                        <option value="">Select word...</option>
+                    </select>
+                </div>
+                <button id="addWord">Add Word</button>
+            </div>
+
+            <div class="word-list">
+                <h3>Words in crossword:</h3>
+                <ul id="wordsList"></ul>
+            </div>
+        </div>
+
+        <div class="crossword-container">
+            <div id="crosswordGrid"></div>
+        </div>
+    </div>
+
+    <script src="crosswordAPI.js"></script>
+    <script src="constructor.js"></script>
+</body>
+</html>

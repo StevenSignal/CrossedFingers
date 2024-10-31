@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#keyboard {
+    transition: all 1s ease-in-out;
+}
+
+.crossword-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#crosswordGrid {
+    position: relative;
+    background: #f5f5f5;
+    border: 2px solid #333;
+    transition: all 0.5s ease-in-out;
+}
+
+#crosswordName {
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.cell {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #999;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.cell.invisible input {
+    transition: all 0.3s ease-in-out;
+}
+
+.cell.invisible span {
+    transition: all 0.3s ease-in-out;
+}
+
+.cell.empty {
+    background: #333;
+}
+
+.cell.filled {
+    background: white;
+}
+
+.cell.correct {
+    background: #90EE90;
+}
+
+.cell.invisible {
+    background: transparent;
+}
+
+.cell.invisible input {
+    color: #f5f5f5;;
+}
+
+.cell.invisible span {
+    color: #f5f5f5;
+}
+
+.cell.main {
+    background: #22e9d9;
+}
+
+.cell input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: transparent;
+}
+
+.cell input:focus {
+    outline: none;
+}
+
+.word-number {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 12px;
+    color: #666;
+}
+
+.hints-container {
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.hints-container h2 {
+    margin-bottom: 15px;
+}
+
+.hints-container h3 {
+    margin: 10px 0;
+    color: #444;
+}
+
+.hints-container ul {
+    list-style-position: inside;
+    margin-left: 20px;
+}
+
+.hints-container li {
+    margin: 5px 0;
+    color: #666;
+}
