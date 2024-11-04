@@ -2,9 +2,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дверь Дяди Павла</title>
+    <title>Дом Дяди Павла</title>
     <link rel="stylesheet" href="styles_door.css">
 </head>
-<body> 
+<body>
+    <div class="container">
+        <div class="door"></div>
+        <div class="message_box hidden"></div>
+    </div>
+    <div class="blackout"></div>
 
+    <div class="kitchen_container hidden">
+        <div class="kitchen"></div>
+        <div class="pavel">
+            <div class="message_box hidden" id ="message_box_pavel"></div>
+        </div>
+        <div class="zanin invisible black_zanin"></div>
+
+        <div class="zanin" style="background-image: url('zanin_i.png');">
+            <div class="message_box hidden" id ="message_box_zanin"></div>
+        </div>
+    </div>
+
+    <div class="pipes_container hidden">
+        <div id="game-container"></div>
+        <button id="flow-button">Start Water Flow</button>
+        <script src="pipes.js"></script>
+    </div>
+
+    <div class="blackout" id="blackout2"></div>
+
+    <script>
+        const door = document.querySelector('.door');
+        const kitchen_music = new Audio("kitchen_ost.mp3");
+        let isClicked = false;
+        door.addEventListener('click', () => {
+            if (isClicked) return;
+            isClicked = true;
+            door.classList.toggle('door_clicked');
+            door.classList.toggle('door');
+            const audio = new Audio('door.mp3');
+            audio.play();
+
+            const messageBox = document.querySelector('.message_box');
+            let msg = "Заходи... Ты как раз вовремя..."
+            setTimeout(() => {
+                messageBox.classList.toggle('hidden');
+                let dots = 0;
+                let time = 0;
+                for (let i = 0; i < msg.length; i++) {
+                    if (msg[i] === '.') dots++;
+                    time = 50 * i;
+                    if (dots >= 3)  {
+                        time += 300;
+                    }
+                    setTimeout(() => {
+                        messageBox.innerHTML += msg[i];
+                        new Audio('speak.mp3').play();
+                    }, time);
+                }
+            }, 2000);
+
+            setTimeout(() => {
+                document.querySelector('.blackout').classList.toggle('blackout_anim');
+            }, 4200);
+
+            setTimeout(() => { 
+                document.querySelector('.container').classList.toggle('hidden');
+            }, 5000);
+
+            setTimeout(() => {
+                document.querySelector('.kitchen_container').classList.toggle('hidden');
+                document.querySelector('.blackout').classList.toggle('blackout_anim');
+                document.querySelector('.blackout').classList.toggle('blackout_anim_2');
+                kitchen_music.play();
+            }, 6000);
+
+            setTimeout(() => {
+                document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                let msg = "Я собирался варить свою сосиcочку в кастрюльке, однако случилась проблема с водой.";
+                let coma = false;
+                for (let i = 0; i < msg.length; i++) {
+                    let time = 50 * i;
+                    if (msg[i] === ',') coma = true;
+                    if (coma) time += 400;
+                    setTimeout(() => {
+                        document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                        new Audio('speak.mp3').play();
+                    }, time);
+                }
+            }, 8500);
+
+            setTimeout(() => {
+                document.querySelector('#message_box_pavel').innerHTML = "";
+                let msg = "Реши её и я помогу тебе с твоей цифрой, folklore-женщина.";
+                let coma = false;
+                for (let i = 0; i < msg.length; i++) {
+                    let time = 50 * i;
+                    if (msg[i] === ',') coma = true;
+                    if (coma) time += 400;
+                    setTimeout(() => {
+                        document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                        new Audio('speak.mp3').play();
+                    }, time);
+                }
+            }, 17000);
+
+            setTimeout(() => {
+                document.querySelector('.pipes_container').classList.toggle('hidden');
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                }, 2000);
+            }, 21000);
+        });
+
+        document.addEventListener('gameWin', () => {
+            document.querySelector('.pipes_container').classList.toggle('hidden');
+            setTimeout(() => {
+                document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                document.querySelector('#message_box_pavel').innerHTML = "";
+                let msg = "Ура, ура! Теперь я смогу вкусно покушать! Ты теперь скорее folklore-Cигма. (что бы это не значило)";
+                let exclamation = 0;
+                for (let i = 0; i < msg.length; i++) {
+                    let time = 50 * i;
+                    if (msg[i] === '!') exclamation++;
+                    if (exclamation > 0) time += 400 * exclamation;
+                    setTimeout(() => {
+                        document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                        new Audio('speak.mp3').play();
+                    }, time);
+                }
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                    let msg = "По правде говоря, я не знаю как добыть твою цифру. Но зато...";
+                    let dot = false;
+                    let coma = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        if (msg[i] === '.') dot = true;
+                        if (dot) time += 400;
+                        if (msg[i] === ',') coma = true;
+                        if (coma) time += 400;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 8000);
+
+                setTimeout(() => {
+                    if (kitchen_music.currentTime > 0) {
+                        let fadeOutInterval = setInterval(() => {
+                            if (kitchen_music.volume > 0.05) {
+                                kitchen_music.volume -= 0.05;
+                            } else {
+                                kitchen_music.volume = 0;
+                                kitchen_music.pause();
+                                clearInterval(fadeOutInterval);
+                            }
+                        }, 200);
+                    }
+
+                    let msg = "Кто-то сказал... СИГМА?!!";
+                    let dots = 0;
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                    for (let i = 0; i < msg.length; i++) {
+                        if (msg[i] === '.') dots++;
+                        time = 50 * i;
+                        if (dots >= 3)  {
+                            time += 500;
+                        }
+                        setTimeout(() => {
+                            document.querySelector('#message_box_zanin').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 11000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                }, 13000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                    let msg = "Ох ты ж блять...";
+                    let dot = false;
+                    let coma = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 14000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                    new Audio('zanin.mp3').play();
+                    document.querySelector('.zanin').classList.toggle('invisible');
+                }, 16000);
+                setTimeout(() => {
+                    document.querySelector('.zanin').classList.toggle('black_zanin');
+                }, 21000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                    document.querySelector('#message_box_zanin').innerHTML = "";
+                    let msg = "Дядя Павел, вы устраиваете копро-пир, а меня не зовёте?";
+                    let coma = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        if (msg[i] === ',') coma = true;
+                        if (coma) time += 400;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_zanin').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 22000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                }, 28000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                    msg = "Копро-Занин... Это не тот пир о котором ты думаешь...";
+                    let dots = 0;
+                    for (let i = 0; i < msg.length; i++) {
+                        if (msg[i] === '.') dots++;
+                        time = 50 * i;
+                        if (dots >= 3)  {
+                            time += 300;
+                        }
+                        setTimeout(() => {
+                            document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 26000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                }, 31000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                    document.querySelector('#message_box_zanin').innerHTML = "";
+                    let msg = "Ваш пенис был очень вкусным в прошлый раз, Дядя Павел. Не хорошо скрывать от друзей такое богатство."
+                    let coma = false;
+                    let dot = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        if (msg[i] === '.') dot = true;
+                        if (dot) time += 400;
+                        if (msg[i] === ',') coma = true;
+                        if (coma) time += 400;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_zanin').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 33000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                    let msg = "Я сел на диету. Пока что никаких пенисов.";
+                    let dot = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        if (msg[i] === '.') dot = true;
+                        time = 50 * i;
+                        if (dot)  {
+                            time += 300;
+                        }
+                        setTimeout(() => {
+                            document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 39000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                }, 43000);
+
+                setTimeout(() => {
+                    document.querySelector('.zanin').classList.toggle('invisible');
+                    document.querySelector('#message_box_zanin').innerHTML = "";
+                    let msg = "Вот как... Ну ладно, я подожду. В таком случае я зайду к вам поздн...";
+                    let coma = false;
+                    let dot = false;
+                    let dots = 0;
+                    for (let i = 0; i < msg.length; i++) {
+                        if (msg[i] === '.') dots++;
+                        if (dots >= 4) dot = true;
+                        time = 50 * i;
+                        if (dots >= 3)  {
+                            time += 300;
+                        }
+                        if (dot)  {
+                            time += 400;
+                        }
+                        if (msg[i] === ',') coma = true;
+                        if (coma) time += 300;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_zanin').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 42500);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                }, 48000);
+
+                setTimeout(() => {
+                    document.querySelector('.zanin').classList.toggle('invisible');
+                    document.querySelector('#message_box_pavel').classList.toggle('hidden');
+                    document.querySelector('#message_box_pavel').innerHTML = "";
+                    let msg = "Подожди секундочку. Ты не мог бы помочь этой юной даме найти цифру для какой-то коробки?";
+                    let dot = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        if (msg[i] === '.') dot = true;
+                        if (dot) time += 400;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_pavel').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 46000);
+
+                setTimeout(() => {
+                    document.querySelector('#message_box_zanin').classList.toggle('hidden');
+                    document.querySelector('#message_box_zanin').innerHTML = "";
+                    let msg = "Копробка значит? Слышал об этом, один незнакомец передал мне этот ребус. Не знаю что он значит, но может ей поможет.";
+                    let coma = false;
+                    let question = false;
+                    let dot = false;
+                    for (let i = 0; i < msg.length; i++) {
+                        let time = 50 * i;
+                        if (msg[i] === '?') question = true;
+                        if (question) time += 400;
+                        if (msg[i] === '.') dot = true;
+                        if (dot) time += 400;
+                        if (msg[i] === ',') coma = true;
+                        if (coma) time += 400;
+                        setTimeout(() => {
+                            document.querySelector('#message_box_zanin').innerHTML += msg[i];
+                            new Audio('speak.mp3').play();
+                        }, time);
+                    }
+                }, 52500);
+
+                setTimeout(() => {
+                    document.querySelector('#blackout2').classList.toggle('blackout_anim');
+                }, 60000);
+
+                setTimeout(() => {
+                    window.open('access_granted.html', '_self');
+                }, 64000);
+            }, 1000);
+        });
+    </script>
 </body>

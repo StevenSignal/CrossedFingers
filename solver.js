@@ -156,7 +156,6 @@ class CrosswordSolver {
         const leftKey = `${x - 1},${y}`;
         const upKey = `${x},${y - 1}`;
         
-        // Аналогично для движения назад
         if (this.priorityDirection === 'vertical') {
             const upInput = this.cellInputs.get(upKey);
             if (upInput) return upInput;
@@ -196,7 +195,7 @@ class CrosswordSolver {
                 correctCount++;
             }
         });
-        // если все слова правильные, показываем что юзер победил
+
         if (correctCount === this.words.size && this.hasWon === false) {
             this.hasWon = true;
             this.words.get('dbf9ecab-692c-400d-b6b9-b1a095558c04').cells.forEach(cell => {
@@ -272,5 +271,4 @@ class CrosswordSolver {
     }
 }
 
-// Создаем экземпляр решателя кроссворда
 const solver = new CrosswordSolver();
